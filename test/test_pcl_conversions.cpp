@@ -41,10 +41,10 @@ protected:
   }
 
   pcl::PCLImage pcl_image;
-  sensor_msgs::Image image;
+  sensor_msgs::msg::Image image;
 
   pcl::PCLPointCloud2 pcl_pc2;
-  sensor_msgs::PointCloud2 pc2;
+  sensor_msgs::msg::PointCloud2 pc2;
 };
 
 template<class T>
@@ -103,10 +103,10 @@ TEST_F(PCLConversionTests, pointcloud2Conversion) {
 
 struct StampTestData
 {
-  const ros::Time stamp_;
-  ros::Time stamp2_;
+  const builtin_interfaces::msg::Time stamp_;
+  builtin_interfaces::msg::Time stamp2_;
 
-  explicit StampTestData(const ros::Time &stamp)
+  explicit StampTestData(const builtin_interfaces::msg::Time &stamp)
     : stamp_(stamp)
   {
     pcl::uint64_t pcl_stamp;
@@ -118,28 +118,43 @@ struct StampTestData
 TEST(PCLConversionStamp, Stamps)
 {
   {
-    const StampTestData d(ros::Time(1.000001));
-    EXPECT_TRUE(d.stamp_==d.stamp2_);
+    builtin_interfaces::msg::Time t;
+    t.sec = 1;
+    t.nanosec = 1000;
+    const StampTestData d(t);
+    EXPECT_EQ(d.stamp_, d.stamp2_);
   }
 
   {
-    const StampTestData d(ros::Time(1.999999));
-    EXPECT_TRUE(d.stamp_==d.stamp2_);
+    builtin_interfaces::msg::Time t;
+    t.sec = 1;
+    t.nanosec = 999999000ull;
+    const StampTestData d(t);
+    EXPECT_EQ(d.stamp_, d.stamp2_);
   }
 
   {
-    const StampTestData d(ros::Time(1.999));
-    EXPECT_TRUE(d.stamp_==d.stamp2_);
+    builtin_interfaces::msg::Time t;
+    t.sec = 1;
+    t.nanosec = 999000000ull;
+    const StampTestData d(t);
+    EXPECT_EQ(d.stamp_, d.stamp2_);
   }
 
   {
-    const StampTestData d(ros::Time(1423680574, 746000000));
-    EXPECT_TRUE(d.stamp_==d.stamp2_);
+    builtin_interfaces::msg::Time t;
+    t.sec = 1423680574;
+    t.nanosec = 746000000;
+    const StampTestData d(t);
+    EXPECT_EQ(d.stamp_, d.stamp2_);
   }
 
   {
-    const StampTestData d(ros::Time(1423680629, 901000000));
-    EXPECT_TRUE(d.stamp_==d.stamp2_);
+    builtin_interfaces::msg::Time t;
+    t.sec = 1423680629;
+    t.nanosec = 901000000;
+    const StampTestData d(t);
+    EXPECT_EQ(d.stamp_, d.stamp2_);
   }
 }
 
