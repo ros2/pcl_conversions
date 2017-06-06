@@ -50,12 +50,12 @@ protected:
 template<class T>
 void test_image(T &image) {
   EXPECT_EQ(std::string("pcl"), image.header.frame_id);
-  EXPECT_EQ(1, image.height);
-  EXPECT_EQ(2, image.width);
-  EXPECT_EQ(1, image.step);
+  EXPECT_EQ(1U, image.height);
+  EXPECT_EQ(2U, image.width);
+  EXPECT_EQ(1U, image.step);
   EXPECT_TRUE(image.is_bigendian);
   EXPECT_EQ(std::string("bgr8"), image.encoding);
-  EXPECT_EQ(2, image.data.size());
+  EXPECT_EQ(2U, image.data.size());
   EXPECT_EQ(0x42, image.data[0]);
   EXPECT_EQ(0x43, image.data[1]);
 }
@@ -71,21 +71,21 @@ TEST_F(PCLConversionTests, imageConversion) {
 template<class T>
 void test_pc(T &pc) {
   EXPECT_EQ(std::string("pcl"), pc.header.frame_id);
-  EXPECT_EQ(1, pc.height);
-  EXPECT_EQ(2, pc.width);
-  EXPECT_EQ(1, pc.point_step);
-  EXPECT_EQ(1, pc.row_step);
+  EXPECT_EQ(1U, pc.height);
+  EXPECT_EQ(2U, pc.width);
+  EXPECT_EQ(1U, pc.point_step);
+  EXPECT_EQ(1U, pc.row_step);
   EXPECT_TRUE(pc.is_bigendian);
   EXPECT_TRUE(pc.is_dense);
   EXPECT_EQ("XYZ", pc.fields[0].name);
   EXPECT_EQ(pcl::PCLPointField::INT8, pc.fields[0].datatype);
-  EXPECT_EQ(3, pc.fields[0].count);
-  EXPECT_EQ(0, pc.fields[0].offset);
+  EXPECT_EQ(3U, pc.fields[0].count);
+  EXPECT_EQ(0U, pc.fields[0].offset);
   EXPECT_EQ("RGB", pc.fields[1].name);
   EXPECT_EQ(pcl::PCLPointField::INT8, pc.fields[1].datatype);
-  EXPECT_EQ(3, pc.fields[1].count);
-  EXPECT_EQ(8 * 3, pc.fields[1].offset);
-  EXPECT_EQ(2, pc.data.size());
+  EXPECT_EQ(3U, pc.fields[1].count);
+  EXPECT_EQ(8U * 3U, pc.fields[1].offset);
+  EXPECT_EQ(2U, pc.data.size());
   EXPECT_EQ(0x42, pc.data[0]);
   EXPECT_EQ(0x43, pc.data[1]);
 }
